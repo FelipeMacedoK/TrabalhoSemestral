@@ -47,7 +47,6 @@ h1 {
     align-items: center;
 }
 
-/* Definindo cores específicas para cada nota */
 .escala label[for="nota0"] { background-color: #FF0000; }
 .escala label[for="nota1"] { background-color: #FF3300; }
 .escala label[for="nota2"] { background-color: #FF6600; }

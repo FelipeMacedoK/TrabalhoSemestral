@@ -1,6 +1,4 @@
-document.addEventListener("DOMContentLoaded", function () {
-    carregarPerguntas();
-});
+document.addEventListener("DOMContentLoaded", carregarPerguntas);
 
 function carregarPerguntas() {
     fetch('perguntacontroller.php?acao=listar')
@@ -10,13 +8,12 @@ function carregarPerguntas() {
             perguntasContainer.innerHTML = '';
             perguntas.forEach(pergunta => {
                 const row = document.createElement('tr');
-
                 row.innerHTML = `
                     <td>${pergunta.idpergunta}</td>
                     <td>${pergunta.texto}</td>
                     <td>${pergunta.status}</td>
                     <td>
-                        <button onclick="alterarStatusPergunta(${pergunta.idpergunta}, ${pergunta.status === 'Ativo'})">
+                        <button onclick="alterarStatusPergunta(${pergunta.idpergunta})">
                             ${pergunta.status === 'Ativo' ? 'Desativar' : 'Ativar'}
                         </button>
                         <button onclick="removerPergunta(${pergunta.idpergunta})">Remover</button>
@@ -44,7 +41,6 @@ document.getElementById('formCadastrar').addEventListener('submit', function (e)
 function removerPergunta(id) {
     const formData = new FormData();
     formData.append('id', id);
-
     fetch('perguntacontroller.php?acao=remover', { method: 'POST', body: formData })
         .then(response => response.text())
         .then(result => {
@@ -54,11 +50,9 @@ function removerPergunta(id) {
         .catch(error => console.error('Erro ao remover pergunta:', error));
 }
 
-function alterarStatusPergunta(id, status) {
+function alterarStatusPergunta(id) {
     const formData = new FormData();
     formData.append('id', id);
-    formData.append('status', !status); // Inverte o status
-
     fetch('perguntacontroller.php?acao=alterarStatus', { method: 'POST', body: formData })
         .then(response => response.text())
         .then(result => {

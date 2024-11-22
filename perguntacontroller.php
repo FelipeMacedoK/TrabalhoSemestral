@@ -9,6 +9,7 @@ if (isset($_GET['acao'])) {
             header('Content-Type: application/json');
             echo json_encode($pergunta->obterPerguntas());
             break;
+
         case 'cadastrar':
             if (isset($_POST['texto'])) {
                 $pergunta->cadastrarPergunta($_POST['texto']);
@@ -17,6 +18,7 @@ if (isset($_GET['acao'])) {
                 echo "Erro: Texto da pergunta não fornecido.";
             }
             break;
+
         case 'remover':
             if (isset($_POST['id'])) {
                 $pergunta->removerPergunta($_POST['id']);
@@ -25,16 +27,16 @@ if (isset($_GET['acao'])) {
                 echo "Erro: ID da pergunta não fornecido.";
             }
             break;
+
         case 'alterarStatus':
-                $status = filter_var($_POST['status'], FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE);
-                if ($status !== null) {
-                    if ($pergunta->alterarStatusPergunta($_POST['id'], $status)) {
-                        echo $status ? "Pergunta ativada com sucesso!" : "Pergunta desativada com sucesso!";
-                    } else {
-                        echo "Erro ao alterar o status da pergunta.";
-                    }
-                } 
+            if (isset($_POST['id'])) {
+                $pergunta->alterarStatusPergunta($_POST['id']);
+                echo "Status alterado com sucesso!";
+            } else {
+                echo "Erro: ID da pergunta não foi enviado.";
+            }
             break;
+
         default:
             echo "Ação inválida.";
     }

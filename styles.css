@@ -1,0 +1,116 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f9f9f9;
+    padding: 20px;
+}
+
+.container {
+    max-width: 600px;
+    margin: 0 auto;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+    text-align: center;
+}
+
+.pergunta {
+    margin-bottom: 20px;
+}
+
+.escala {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5px; 
+    text-align: center;
+}
+
+.escala input[type="radio"] {
+    display: none;
+}
+
+.escala label {
+    width: 40px;
+    height: 40px;
+    line-height: 40px;
+    border-radius: 5px;
+    margin-right: 5px;
+    cursor: pointer;
+    color: white;
+    font-weight: bold;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Definindo cores específicas para cada nota */
+.escala label[for="nota0"] { background-color: #FF0000; }
+.escala label[for="nota1"] { background-color: #FF3300; }
+.escala label[for="nota2"] { background-color: #FF6600; }
+.escala label[for="nota3"] { background-color: #FF9900; }
+.escala label[for="nota4"] { background-color: #FFCC00; }
+.escala label[for="nota5"] { background-color: #FFFF00; }
+.escala label[for="nota6"] { background-color: #CCFF33; }
+.escala label[for="nota7"] { background-color: #99FF33; }
+.escala label[for="nota8"] { background-color: #66FF33; }
+.escala label[for="nota9"] { background-color: #33FF33; }
+.escala label[for="nota10"] { background-color: #00CC00; }
+
+.escala input[type="radio"]:checked + label {
+    border: 2px solid gray;
+}
+
+textarea {
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+button {
+    width: 100%;
+    padding: 10px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
+.anonimato {
+    font-size: 0.9em;
+    color: #777;
+    text-align: center;
+    margin-top: 10px;
+}
+
+#mensagemErro {
+    display: none;
+    color: red;
+    margin: 10px 0;
+}
+.mensagem-sucesso {
+    color: green;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+th, td {
+    padding: 10px;
+    text-align: center;
+    border: 1px solid #ddd;
+}
+th {
+    background-color: #f4f4f4;
+}

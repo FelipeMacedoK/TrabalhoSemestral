@@ -40,5 +40,7 @@ if (isset($_GET['acao'])) {
         default:
             echo "Ação inválida.";
     }
+    
 }
+
 ?>

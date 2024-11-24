@@ -39,15 +39,17 @@ document.getElementById('formCadastrar').addEventListener('submit', function (e)
 });
 
 function removerPergunta(id) {
-    const formData = new FormData();
-    formData.append('id', id);
-    fetch('perguntacontroller.php?acao=remover', { method: 'POST', body: formData })
-        .then(response => response.text())
-        .then(result => {
-            alert(result);
-            carregarPerguntas();
-        })
-        .catch(error => console.error('Erro ao remover pergunta:', error));
+    if (confirm("Tem certeza de que deseja remover esta pergunta?")) {
+        const formData = new FormData();
+        formData.append('id', id);
+        fetch('perguntacontroller.php?acao=remover', { method: 'POST', body: formData })
+            .then(response => response.text())
+            .then(result => {
+                alert(result);
+                carregarPerguntas();
+            })
+            .catch(error => console.error('Erro ao remover pergunta:', error));
+    }
 }
 
 function alterarStatusPergunta(id) {

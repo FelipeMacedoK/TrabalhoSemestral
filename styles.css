@@ -80,6 +80,23 @@ button {
     cursor: pointer;
 }
 
+#avaliacao {
+    display: block;
+    margin: 20px auto;
+    text-align: center;
+    font-size: 1.2em;
+    padding: 10px;
+    background-color: #4CAF50;
+    color: white;
+    text-decoration: none;
+    border-radius: 10px;
+    transition: background-color 0.3s ease;
+}
+
+#avaliacao:hover {
+    background-color: #45a049;
+}
+
 button:hover {
     background-color: #45a049;
 }

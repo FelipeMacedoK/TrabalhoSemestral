@@ -47,17 +47,17 @@ h1 {
     align-items: center;
 }
 
-.escala label[for="nota0"] { background-color: #FF0000; }
-.escala label[for="nota1"] { background-color: #FF3300; }
-.escala label[for="nota2"] { background-color: #FF6600; }
-.escala label[for="nota3"] { background-color: #FF9900; }
-.escala label[for="nota4"] { background-color: #FFCC00; }
-.escala label[for="nota5"] { background-color: #FFFF00; }
-.escala label[for="nota6"] { background-color: #CCFF33; }
-.escala label[for="nota7"] { background-color: #99FF33; }
-.escala label[for="nota8"] { background-color: #66FF33; }
-.escala label[for="nota9"] { background-color: #33FF33; }
-.escala label[for="nota10"] { background-color: #00CC00; }
+.nota0 { background-color: #FF0000; }
+.nota1 { background-color: #FF3300; }
+.nota2 { background-color: #FF6600; }
+.nota3 { background-color: #FF9900; }
+.nota4 { background-color: #FFCC00; }
+.nota5 { background-color: #FFFF00; }
+.nota6 { background-color: #CCFF33; }
+.nota7 { background-color: #99FF33; }
+.nota8 { background-color: #66FF33; }
+.nota9 { background-color: #33FF33; }
+.nota10 { background-color: #00CC00; }
 
 .escala input[type="radio"]:checked + label {
     border: 2px solid gray;
@@ -129,4 +129,8 @@ th, td {
 }
 th {
     background-color: #f4f4f4;
+}
+
+.pergunta {
+    text-align: center;
 }

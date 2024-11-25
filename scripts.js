@@ -1,76 +1,86 @@
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", function () {
     carregarPerguntasAvaliacao();
     iniciarTimer();
 });
 
+let perguntas = [];
+let perguntaAtual = 0; 
+let respostas = {};
+let temporizador;
+let tempoInatividade = 30;
+
 function carregarPerguntasAvaliacao() {
     fetch('avaliacaocontroller.php?acao=listar')
         .then(response => response.json())
-        .then(perguntas => {
-            const perguntasContainer = document.getElementById('perguntas-container');
-            perguntasContainer.innerHTML = '';
-            perguntas.forEach(pergunta => {
-                const div = document.createElement('div');
-                div.innerHTML = `
-                    <p>${pergunta.texto}</p>
-                    <div class="escala">
-                        <input type="radio" id="nota0-${pergunta.idpergunta}" name="nota-${pergunta.idpergunta}" value="0"><label for="nota0-${pergunta.idpergunta}">0</label>
-                        <input type="radio" id="nota1-${pergunta.idpergunta}" name="nota-${pergunta.idpergunta}" value="1"><label for="nota1-${pergunta.idpergunta}">1</label>
-                        <input type="radio" id="nota2-${pergunta.idpergunta}" name="nota-${pergunta.idpergunta}" value="2"><label for="nota2-${pergunta.idpergunta}">2</label>
-                        <input type="radio" id="nota3-${pergunta.idpergunta}" name="nota-${pergunta.idpergunta}" value="3"><label for="nota3-${pergunta.idpergunta}">3</label>
-                        <input type="radio" id="nota4-${pergunta.idpergunta}" name="nota-${pergunta.idpergunta}" value="4"><label for="nota4-${pergunta.idpergunta}">4</label>
-                        <input type="radio" id="nota5-${pergunta.idpergunta}" name="nota-${pergunta.idpergunta}" value="5"><label for="nota5-${pergunta.idpergunta}">5</label>
-                        <input type="radio" id="nota6-${pergunta.idpergunta}" name="nota-${pergunta.idpergunta}" value="6"><label for="nota6-${pergunta.idpergunta}">6</label>
-                        <input type="radio" id="nota7-${pergunta.idpergunta}" name="nota-${pergunta.idpergunta}" value="7"><label for="nota7-${pergunta.idpergunta}">7</label>
-                        <input type="radio" id="nota8-${pergunta.idpergunta}" name="nota-${pergunta.idpergunta}" value="8"><label for="nota8-${pergunta.idpergunta}">8</label>
-                        <input type="radio" id="nota9-${pergunta.idpergunta}" name="nota-${pergunta.idpergunta}" value="9"><label for="nota9-${pergunta.idpergunta}">9</label>
-                        <input type="radio" id="nota10-${pergunta.idpergunta}" name="nota-${pergunta.idpergunta}" value="10"><label for="nota10-${pergunta.idpergunta}">10</label>
-                    </div>
-                `;
-                perguntasContainer.appendChild(div);
-            });
+        .then(data => {
+            perguntas = data;
+            exibirPergunta();
         })
         .catch(error => console.error('Erro ao carregar perguntas:', error));
 }
 
-let tempoInatividade = 30;
-let temporizador;
-
-const contadorTempo = document.getElementById('contador');
-
-function atualizarContador() {
-    if (tempoInatividade <= 0) {
-        window.location.href = 'index.html'; 
+function exibirPergunta() {
+    const perguntasContainer = document.getElementById('perguntas-container');
+    perguntasContainer.innerHTML = '';
+    if (perguntaAtual < perguntas.length) {
+        const pergunta = perguntas[perguntaAtual];
+        const div = document.createElement('div');
+        div.innerHTML = `
+            <p class="pergunta">${pergunta.texto}</p>
+            <div class="escala">
+                ${[...Array(11).keys()]
+                    .map(
+                        nota => `
+                        <input type="radio" id="nota${nota}-${pergunta.idpergunta}" name="nota-${pergunta.idpergunta}" value="${nota}" 
+                        ${respostas[pergunta.idpergunta] == nota ? "checked" : ""}>
+                        <label class="nota nota${nota}" for="nota${nota}-${pergunta.idpergunta}">${nota}</label>
+                    `
+                    )
+                    .join('')}
+            </div><br>
+            ${perguntaAtual === perguntas.length - 1 ? `
+            <div>
+                <label for="feedback">Feedback adicional:</label>
+                <textarea id="feedback" name="feedback" rows="4" cols="50" placeholder="Deixe seu comentário aqui..."></textarea>
+            </div>` : ""}
+            <button id="proxima-pergunta">
+                ${perguntaAtual < perguntas.length - 1 ? "Enviar Resposta" : "Enviar Avaliação"}
+            </button>
+        `;
+        perguntasContainer.appendChild(div);
+        document.getElementById('proxima-pergunta').addEventListener('click', () => {
+            if (perguntaAtual < perguntas.length - 1) {
+                avancarPergunta();
+            } else {
+                enviarAvaliacao();
+            }
+        });
     } else {
-        contadorTempo.textContent = `Tempo restante: ${tempoInatividade} segundos`;
-        tempoInatividade--;
+        perguntasContainer.innerHTML = '<p>Obrigado por responder a avaliação!</p>';
     }
 }
 
-function iniciarTimer() {
-    temporizador = setInterval(atualizarContador, 1000);
+function avancarPergunta() {
+    const radios = document.querySelectorAll(`input[name="nota-${perguntas[perguntaAtual].idpergunta}"]:checked`);
+    if (radios.length === 0) {
+        alert("Por favor, selecione uma nota antes de continuar!");
+        return;
+    }
+    const notaSelecionada = radios[0].value;
+    respostas[perguntas[perguntaAtual].idpergunta] = notaSelecionada;
+    perguntaAtual++;
+    exibirPergunta();
 }
 
-document.getElementById('avaliacao-form').addEventListener('input', function() {
-    tempoInatividade = 30;
-});
-
-document.getElementById('avaliacao-form').addEventListener('submit', function(e) {
-    e.preventDefault(); 
-
-    const formData = new FormData(this);
-    const avaliacao = {};
-
-    formData.forEach((value, key) => {
-        if (key.startsWith('nota-')) {
-            const idPergunta = key.split('-')[1];
-            avaliacao[idPergunta] = value;
-        }
-    });
-
+function enviarAvaliacao() {
+    const feedback = document.getElementById('feedback')?.value || "";
     fetch('avaliacaocontroller.php', {
         method: 'POST',
-        body: JSON.stringify({ acao: 'salvarAvaliacao', avaliacao: avaliacao }),
+        body: JSON.stringify({ 
+            acao: 'salvarAvaliacao', 
+            avaliacao: respostas, 
+            feedback: feedback 
+        }),
         headers: {
             'Content-Type': 'application/json'
         }
@@ -85,4 +95,23 @@ document.getElementById('avaliacao-form').addEventListener('submit', function(e)
         }
     })
     .catch(error => console.error('Erro ao salvar avaliação:', error));
-});
+}
+
+const contadorTempo = document.getElementById('contador');
+function iniciarTimer() {
+    atualizarContador();
+    temporizador = setInterval(() => {
+        if (tempoInatividade <= 0) {
+            window.location.href = 'index.html';
+        } else {
+            atualizarContador();
+            tempoInatividade--;
+        }
+    }, 1000);
+}
+
+function atualizarContador() {
+    contadorTempo.textContent = `Tempo restante: ${tempoInatividade} segundos`;
+}
+
+document.addEventListener('input', () => (tempoInatividade = 30));

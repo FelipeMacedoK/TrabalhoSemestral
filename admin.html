@@ -8,12 +8,29 @@
 </head>
 <body>
     <h1>Administração</h1>
+    <div id="dashboard" class="aba">
+        <h2>Avaliações Realizadas</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Setor</th>
+                    <th>Dispositivo</th>
+                    <th>Feedback</th>
+                    <th>Data/Hora</th>
+                    <th>Pergunta</th>
+                    <th>Resposta</th>
+                </tr>
+            </thead>
+            <tbody id="avaliacoesContainer"></tbody>
+        </table>
+    </div>    
     <div id="mensagemErro"></div>
+    <h2>Perguntas</h2>
     <form id="formCadastrar">
-        <input type="text" name="texto" placeholder="Digite a pergunta" size="180%"required>
+        <input type="text" name="texto" placeholder="Digite a pergunta" size="180%" required>
         <button type="submit">Cadastrar Pergunta</button>
     </form>
-    <h2>Perguntas Cadastradas</h2>
     <table>
         <thead>
             <tr>
@@ -25,6 +42,6 @@
         </thead>
         <tbody id="perguntasContainer"></tbody>
     </table>
-    <script src="script.js"></script>
+    <script src="scripts.js"></script>
 </body>
 </html>

@@ -28,12 +28,17 @@ CREATE TABLE tbdispositivos (
 CREATE TABLE tbavaliacoes (
     idavaliacao SERIAL PRIMARY KEY,
     idsetor INTEGER REFERENCES tbsetores(idsetor),
-    idpergunta INTEGER REFERENCES tbperguntas(idpergunta),
     iddispositivo INTEGER REFERENCES tbdispositivos(iddispositivo),
-    resposta INTEGER NOT NULL,
     feedback TEXT,
     data_hora TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL
-);  
+);
+
+CREATE TABLE tbavaliacao_pergunta (
+    idavaliacao INTEGER REFERENCES tbavaliacoes(idavaliacao),
+    idpergunta INTEGER REFERENCES tbperguntas(idpergunta),
+    resposta INTEGER NOT NULL,
+    PRIMARY KEY (idavaliacao, idpergunta)
+);
 */
 
 class pgconnect {

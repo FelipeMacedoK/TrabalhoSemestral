@@ -2,8 +2,12 @@ document.addEventListener("DOMContentLoaded", () => {
     if (document.getElementById('perguntasContainer')) carregarPerguntas();
     if (document.getElementById('formCadastrar')) iniciarFormularioCadastro();
     if (document.getElementById('perguntas-container')) iniciarAvaliacao();
-    if (document.getElementById('dashboard')) carregarAvaliacoes();
+    if (document.getElementById('dashboard')) {carregarDashboard();
+    }
 });
+
+
+document.addEventListener('DOMContentLoaded', carregarDashboard);
 
 function carregarPerguntas() {
     fetch('perguntacontroller.php?acao=listar')
@@ -205,27 +209,45 @@ function atualizarContador() {
     }
 }
 
-function carregarAvaliacoes() {
-    fetch('avaliacaocontroller.php')
-        .then(response => response.json())
-        .then(avaliacoes => {
-            const avaliacoesContainer = document.getElementById('avaliacoesContainer');
-            avaliacoesContainer.innerHTML = '';
-            avaliacoes.forEach(avaliacao => {
-                const row = document.createElement('tr');
-                row.innerHTML = `
-                    <td>${avaliacao.idavaliacao}</td>
-                    <td>${avaliacao.setor}</td>
-                    <td>${avaliacao.dispositivo}</td>
-                    <td>${avaliacao.feedback}</td>
-                    <td>${new Date(avaliacao.data_hora).toLocaleString()}</td>
-                    <td>${avaliacao.idpergunta}</td>
-                    <td>${avaliacao.resposta}</td>
-                `;
-                avaliacoesContainer.appendChild(row);
-            });
+function carregarDashboard() {
+    fetch('dashboardcontroller.php')
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Erro na resposta do servidor: ' + response.statusText);
+            }
+            return response.json();
         })
-        .catch(error => console.error('Erro ao carregar avaliações:', error));
+        .then(data => {
+            if (data.error) {
+                console.error('Erro no backend:', data.error);
+                document.getElementById('mensagemErro').textContent = data.error;
+                return;
+            }
+            const avaliacoesContainer = document.getElementById('avaliacoesContainer');
+            if (data.length === 0) {
+                avaliacoesContainer.innerHTML = '<tr><td colspan="7">Nenhuma avaliação encontrada.</td></tr>';
+                return;
+            }
+            let html = '';
+            data.forEach(avaliacao => {
+                html += `
+                    <tr>
+                        <td>${avaliacao.idavaliacao}</td>
+                        <td>${avaliacao.setor || 'N/A'}</td>
+                        <td>${avaliacao.dispositivo || 'N/A'}</td>
+                        <td>${avaliacao.feedback || 'N/A'}</td>
+                        <td>${avaliacao.data_hora || 'N/A'}</td>
+                        <td>${avaliacao.idpergunta || 'N/A'}</td>
+                        <td>${avaliacao.resposta || 'N/A'}</td>
+                    </tr>
+                `;
+            });
+            avaliacoesContainer.innerHTML = html;
+        })
+        .catch(error => {
+            console.error('Erro ao carregar dashboard:', error);
+            document.getElementById('mensagemErro').textContent = 'Erro ao carregar dashboard.';
+        });
 }
 
 function mostrarAba(abaId) {

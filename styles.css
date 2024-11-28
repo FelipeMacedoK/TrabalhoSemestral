@@ -134,3 +134,7 @@ th {
 .pergunta {
     text-align: center;
 }
+
+input {
+    width: 99.5%;
+}

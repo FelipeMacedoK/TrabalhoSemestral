@@ -143,7 +143,7 @@ function exibirFeedback() {
     botaoEnviar.addEventListener('click', (event) => {
         botaoEnviar.disabled = true;
         enviarAvaliacao(event);
-    });
+    }); 
 }
 
 function avancarPergunta() {

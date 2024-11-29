@@ -8,10 +8,8 @@ $dbConnection = (new pgconnect())->getConnection();
 if (!$dbConnection) {
     die("Erro ao conectar ao banco de dados.");
 }
-
 $input = json_decode(file_get_contents('php://input'), true);
 file_put_contents('logs.txt', "Dados recebidos: " . print_r($input, true) . PHP_EOL, FILE_APPEND);
-
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     if (isset($_GET['acao']) && $_GET['acao'] === 'listar') {
         header('Content-Type: application/json');

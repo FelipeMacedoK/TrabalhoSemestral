@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Administração</title>
     <link rel="stylesheet" href="styles.css">
+    <script src="scripts.js"></script>
 </head>
 <body>
     <h1>Administração</h1>
@@ -25,23 +26,33 @@
         </thead>
         <tbody id="perguntasContainer"></tbody>
     </table>
+    <div id="medias" class="aba">
+        <h2>Médias das Notas por Pergunta</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Pergunta</th>
+                    <th>Média</th>
+                </tr>
+            </thead>
+            <tbody id="mediasContainer"></tbody>
+        </table>
+    </div>
     <div id="dashboard" class="aba">
         <h2>Avaliações Realizadas</h2>
         <table>
             <thead>
                 <tr>
                     <th>ID</th>
-                    <th>Setor</th>
-                    <th>Dispositivo</th>
-                    <th>Feedback</th>
                     <th>Data/Hora</th>
                     <th>Pergunta</th>
+                    <th>Descrição</th>
                     <th>Resposta</th>
+                    <th>Feedback</th>
                 </tr>
             </thead>
             <tbody id="avaliacoesContainer"></tbody>
         </table>
     </div>    
-    <script src="scripts.js"></script>
 </body>
 </html>

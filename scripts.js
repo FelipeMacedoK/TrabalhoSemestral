@@ -2,8 +2,8 @@ document.addEventListener("DOMContentLoaded", () => {
     if (document.getElementById('perguntasContainer')) carregarPerguntas();
     if (document.getElementById('formCadastrar')) iniciarFormularioCadastro();
     if (document.getElementById('perguntas-container')) iniciarAvaliacao();
-    if (document.getElementById('dashboard')) {carregarDashboard();
-    }
+    if (document.getElementById('dashboard')) carregarDashboard();
+    if (document.getElementById('medias')) carregarMedias();
 });
 
 
@@ -162,8 +162,11 @@ function avancarPergunta() {
     exibirPergunta();
 }
 
-function enviarAvaliacao() {
+function enviarAvaliacao(event) {
+    event.preventDefault(); // Evita o comportamento padrão de envio do formulário (evita o recarregamento da página)
+
     const feedback = document.getElementById("feedback")?.value || "";
+    
     fetch("avaliacaocontroller.php", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -175,19 +178,24 @@ function enviarAvaliacao() {
             feedback: feedback
         }),
     })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                alert("Avaliação salva com sucesso!");
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            const mensagem = document.createElement('div');
+            mensagem.classList.add('mensagem-sucesso');
+            mensagem.innerHTML = 'O Hospital Regional Alto Vale (HRAV) agradece sua resposta e ela é muito importante para nós, pois nos ajuda a melhorar continuamente nossos serviços.';
+            document.body.appendChild(mensagem);
+            setTimeout(() => {
                 window.location.href = "index.html";
-            } else {
-                alert("Erro ao salvar avaliação: " + (data.error || "Erro desconhecido."));
-            }
-        })
-        .catch(error => {
-            console.error("Erro na comunicação com o backend:", error);
-            alert("Erro na comunicação com o servidor. Verifique o console para mais detalhes.");
-        });
+            }, 5000);
+        } else {
+            alert("Erro ao salvar avaliação: " + (data.error || "Erro desconhecido."));
+        }
+    })
+    .catch(error => {
+        console.error("Erro na comunicação com o backend:", error);
+        alert("Erro na comunicação com o servidor. Verifique o console para mais detalhes.");
+    });
 }
 
 function iniciarTimer() {
@@ -211,12 +219,7 @@ function atualizarContador() {
 
 function carregarDashboard() {
     fetch('dashboardcontroller.php')
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Erro na resposta do servidor: ' + response.statusText);
-            }
-            return response.json();
-        })
+        .then(response => response.json())
         .then(data => {
             if (data.error) {
                 console.error('Erro no backend:', data.error);
@@ -228,20 +231,34 @@ function carregarDashboard() {
                 avaliacoesContainer.innerHTML = '<tr><td colspan="7">Nenhuma avaliação encontrada.</td></tr>';
                 return;
             }
-            let html = '';
+            const grupos = {};
             data.forEach(avaliacao => {
+                const chaveGrupo = `${avaliacao.setor} - ${avaliacao.dispositivo}`;
+                if (!grupos[chaveGrupo]) {
+                    grupos[chaveGrupo] = [];
+                }
+                grupos[chaveGrupo].push(avaliacao);
+            });
+            let html = '';
+            for (const [grupo, avaliacoes] of Object.entries(grupos)) {
                 html += `
                     <tr>
-                        <td>${avaliacao.idavaliacao}</td>
-                        <td>${avaliacao.setor || 'N/A'}</td>
-                        <td>${avaliacao.dispositivo || 'N/A'}</td>
-                        <td>${avaliacao.feedback || 'N/A'}</td>
-                        <td>${avaliacao.data_hora || 'N/A'}</td>
-                        <td>${avaliacao.idpergunta || 'N/A'}</td>
-                        <td>${avaliacao.resposta || 'N/A'}</td>
+                        <td colspan="7"><strong>${grupo}</strong></td>
                     </tr>
                 `;
-            });
+                avaliacoes.forEach(avaliacao => {
+                    html += `
+                        <tr>
+                            <td>${avaliacao.idavaliacao}</td>
+                            <td>${avaliacao.data_hora}</td>
+                            <td>${avaliacao.idpergunta}</td>
+                            <td>${avaliacao.pergunta_descricao}</td>
+                            <td>${avaliacao.resposta}</td>
+                            <td>${avaliacao.feedback}</td>
+                        </tr>
+                    `;
+                });
+            }
             avaliacoesContainer.innerHTML = html;
         })
         .catch(error => {
@@ -250,17 +267,33 @@ function carregarDashboard() {
         });
 }
 
-function mostrarAba(abaId) {
-    const abas = document.querySelectorAll('.aba');
-    abas.forEach(aba => aba.style.display = 'none');
-  
-    const abaAtiva = document.getElementById(abaId);
-    if (abaAtiva) abaAtiva.style.display = 'block';
-  }
-  
-  document.getElementById('btn-relatorios').addEventListener('click', () => {
-    mostrarAba('relatorios');
-  });
-  
+function carregarMedias() {
+    fetch('dashboardcontroller.php?acao=medias')
+        .then(response => response.json())
+        .then(data => {
+            const mediasContainer = document.getElementById('mediasContainer');
+            mediasContainer.innerHTML = '';
+            if (data.error) {
+                mediasContainer.innerHTML = `<tr><td colspan="2">${data.error}</td></tr>`;
+                return;
+            }
+            if (data.length === 0) {
+                mediasContainer.innerHTML = '<tr><td colspan="2">Nenhuma média encontrada.</td></tr>';
+                return;
+            }
+            data.forEach(media => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${media.pergunta}</td>
+                    <td>${media.media_resposta}</td>
+                `;
+                mediasContainer.appendChild(row);
+            });
+        })
+        .catch(error => {
+            console.error('Erro ao carregar médias:', error);
+            document.getElementById('mensagemErro').textContent = 'Erro ao carregar médias.';
+        });
+}
 
 document.addEventListener('input', () => (tempoInatividade = 30));

@@ -6,8 +6,11 @@ document.addEventListener("DOMContentLoaded", () => {
     if (document.getElementById('medias')) carregarMedias();
 });
 
-
-document.addEventListener('DOMContentLoaded', carregarDashboard);
+let perguntas = [];
+let perguntaAtual = 0;
+let respostas = {};
+let temporizador;
+let tempoInatividade = 30;
 
 function carregarPerguntas() {
     fetch('perguntacontroller.php?acao=listar')
@@ -75,12 +78,6 @@ function alterarStatusPergunta(id) {
         .catch(error => console.error('Erro ao alterar status:', error));
 }
 
-let perguntas = [];
-let perguntaAtual = 0;
-let respostas = {};
-let temporizador;
-let tempoInatividade = 30;
-
 function iniciarAvaliacao() {
     carregarPerguntasAvaliacao();
     iniciarTimer();
@@ -142,7 +139,11 @@ function exibirFeedback() {
         </div>
         <button id="enviar-avaliacao">Enviar Avaliação</button>
     `;
-    document.getElementById('enviar-avaliacao').addEventListener('click', enviarAvaliacao);
+    const botaoEnviar = document.getElementById('enviar-avaliacao');
+    botaoEnviar.addEventListener('click', (event) => {
+        botaoEnviar.disabled = true;
+        enviarAvaliacao(event);
+    });
 }
 
 function avancarPergunta() {
@@ -163,10 +164,8 @@ function avancarPergunta() {
 }
 
 function enviarAvaliacao(event) {
-    event.preventDefault(); // Evita o comportamento padrão de envio do formulário (evita o recarregamento da página)
-
+    event.preventDefault();
     const feedback = document.getElementById("feedback")?.value || "";
-    
     fetch("avaliacaocontroller.php", {
         method: "POST",
         headers: { "Content-Type": "application/json" },

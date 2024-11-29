@@ -10,7 +10,7 @@ class Pergunta {
     }
 
     public function obterPerguntas() {
-        $query = "SELECT idpergunta, texto, CASE WHEN status THEN 'Ativo' ELSE 'Inativo' END AS status FROM tbperguntas";
+        $query = "SELECT idpergunta, texto, CASE WHEN status THEN 'Ativo' ELSE 'Inativo' END AS status FROM tbperguntas ORDER BY 1";
         $result = pg_query($this->connection, $query);
         $perguntas = [];
         if ($result) {

@@ -223,3 +223,223 @@ Dados para salvar: Array
     [feedback] => Fui muito bem atendido
 )
 
+Dados recebidos: 
+Dados recebidos: Array
+(
+    [acao] => salvarAvaliacao
+    [respostas] => Array
+        (
+            [12] => 9
+            [15] => 10
+            [16] => 9
+        )
+
+    [idsetor] => 1
+    [iddispositivo] => 1
+    [feedback] => teste
+)
+
+Salvando avaliação: Array
+(
+    [respostas] => Array
+        (
+            [12] => 9
+            [15] => 10
+            [16] => 9
+        )
+
+    [idsetor] => 1
+    [iddispositivo] => 1
+    [feedback] => teste
+)
+
+Dados para salvar: Array
+(
+    [respostas] => Array
+        (
+            [12] => 9
+            [15] => 10
+            [16] => 9
+        )
+
+    [idsetor] => 1
+    [iddispositivo] => 1
+    [feedback] => teste
+)
+
+Dados recebidos: 
+Dados recebidos: Array
+(
+    [acao] => salvarAvaliacao
+    [respostas] => Array
+        (
+            [12] => 10
+            [15] => 9
+            [16] => 10
+        )
+
+    [idsetor] => 1
+    [iddispositivo] => 1
+    [feedback] => teste
+)
+
+Salvando avaliação: Array
+(
+    [respostas] => Array
+        (
+            [12] => 10
+            [15] => 9
+            [16] => 10
+        )
+
+    [idsetor] => 1
+    [iddispositivo] => 1
+    [feedback] => teste
+)
+
+Dados para salvar: Array
+(
+    [respostas] => Array
+        (
+            [12] => 10
+            [15] => 9
+            [16] => 10
+        )
+
+    [idsetor] => 1
+    [iddispositivo] => 1
+    [feedback] => teste
+)
+
+Dados recebidos: Array
+(
+    [acao] => salvarAvaliacao
+    [respostas] => Array
+        (
+            [12] => 10
+            [15] => 9
+            [16] => 10
+        )
+
+    [idsetor] => 1
+    [iddispositivo] => 1
+    [feedback] => teste
+)
+
+Salvando avaliação: Array
+(
+    [respostas] => Array
+        (
+            [12] => 10
+            [15] => 9
+            [16] => 10
+        )
+
+    [idsetor] => 1
+    [iddispositivo] => 1
+    [feedback] => teste
+)
+
+Dados para salvar: Array
+(
+    [respostas] => Array
+        (
+            [12] => 10
+            [15] => 9
+            [16] => 10
+        )
+
+    [idsetor] => 1
+    [iddispositivo] => 1
+    [feedback] => teste
+)
+
+Dados recebidos: Array
+(
+    [acao] => salvarAvaliacao
+    [respostas] => Array
+        (
+            [12] => 10
+            [15] => 9
+            [16] => 10
+        )
+
+    [idsetor] => 1
+    [iddispositivo] => 1
+    [feedback] => teste
+)
+
+Salvando avaliação: Array
+(
+    [respostas] => Array
+        (
+            [12] => 10
+            [15] => 9
+            [16] => 10
+        )
+
+    [idsetor] => 1
+    [iddispositivo] => 1
+    [feedback] => teste
+)
+
+Dados para salvar: Array
+(
+    [respostas] => Array
+        (
+            [12] => 10
+            [15] => 9
+            [16] => 10
+        )
+
+    [idsetor] => 1
+    [iddispositivo] => 1
+    [feedback] => teste
+)
+
+Dados recebidos: 
+Dados recebidos: 
+Dados recebidos: 
+Dados recebidos: Array
+(
+    [acao] => salvarAvaliacao
+    [respostas] => Array
+        (
+            [12] => 10
+            [15] => 9
+            [16] => 10
+        )
+
+    [idsetor] => 1
+    [iddispositivo] => 1
+    [feedback] => teste
+)
+
+Salvando avaliação: Array
+(
+    [respostas] => Array
+        (
+            [12] => 10
+            [15] => 9
+            [16] => 10
+        )
+
+    [idsetor] => 1
+    [iddispositivo] => 1
+    [feedback] => teste
+)
+
+Dados para salvar: Array
+(
+    [respostas] => Array
+        (
+            [12] => 10
+            [15] => 9
+            [16] => 10
+        )
+
+    [idsetor] => 1
+    [iddispositivo] => 1
+    [feedback] => teste
+)
+
